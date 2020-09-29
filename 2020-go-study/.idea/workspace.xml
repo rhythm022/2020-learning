@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="13efda71-700a-4a87-96b0-e54a7bb85535" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" path="C:\Go" />
+  <component name="GoLibraries">
+    <option name="urls">
+      <list>
+        <option value="file://$PROJECT_DIR$" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1h20Ki0TYOVqf0FrmmyiHuHtYB8" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="configurable.Global.GOPATH.is.expanded" value="true" />
+    <property name="configurable.Module.GOPATH.is.expanded" value="false" />
+    <property name="configurable.Project.GOPATH.is.expanded" value="true" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\_jiangjj\xue\2020-go-study\09\array" />
+      <recent name="D:\_jiangjj\xue\2020-go-study" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go Test.TestAsync in c25/CSP_mem (1)">
+    <configuration name="TestAsynService in c25/CSP_mem" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="2020-go-study" />
+      <working_directory value="$PROJECT_DIR$/src/c25/CSP_mem" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="c25/CSP_mem" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestAsynService\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestAsync in c25/CSP_mem (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="2020-go-study" />
+      <working_directory value="$PROJECT_DIR$/src/c25/CSP_mem" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="c25/CSP_mem" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestAsync\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestAsync in c25/CSP_mem" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="2020-go-study" />
+      <working_directory value="$PROJECT_DIR$/src/c25/CSP_mem" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="c25/CSP_mem" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestAsync\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGoroutine in c24/share_mem (5)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="2020-go-study" />
+      <working_directory value="$PROJECT_DIR$/src/c24/share_mem" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="c24/share_mem" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestGoroutine\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGoroutine in c24/share_mem" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="2020-go-study" />
+      <working_directory value="$PROJECT_DIR$/src/c24/share_mem" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="c24/share_mem" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestGoroutine\E$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.TestAsync in c25/CSP_mem (1)" />
+        <item itemvalue="Go Test.TestAsync in c25/CSP_mem" />
+        <item itemvalue="Go Test.TestAsynService in c25/CSP_mem" />
+        <item itemvalue="Go Test.TestGoroutine in c24/share_mem" />
+        <item itemvalue="Go Test.TestGoroutine in c24/share_mem (5)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="13efda71-700a-4a87-96b0-e54a7bb85535" name="Default Changelist" comment="" />
+      <created>1599193818065</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1599193818065</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="752" y="178" key="#GOPATH" timestamp="1600836543190">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="752" y="178" key="#GOPATH/0.0.1920.1040@0.0.1920.1040" timestamp="1600836543190" />
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1600923758193">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1600923758193" />
+    <state width="1877" height="237" key="GridCell.Tab.0.bottom" timestamp="1601279510425">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="237" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1601279510425" />
+    <state width="1877" height="237" key="GridCell.Tab.0.center" timestamp="1601279510425">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="237" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1601279510425" />
+    <state width="1877" height="237" key="GridCell.Tab.0.left" timestamp="1601279510425">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="237" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1601279510425" />
+    <state width="1877" height="237" key="GridCell.Tab.0.right" timestamp="1601279510425">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="237" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1601279510425" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1599635965336">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1599635965336" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1599635965336">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1599635965336" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1599635965335">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1599635965335" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1599635965336">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599635965336" />
+    <state x="477" y="208" key="SettingsEditor" timestamp="1600923759628">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="477" y="208" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1600923759628" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1599710775319">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1599710775319" />
+  </component>
+</project>
