@@ -2,40 +2,35 @@ package chan_test
 
 import (
 	"fmt"
-	"sync"
 	"testing"
+	"time"
 )
-
-func dataProducer(ch chan int, wg *sync.WaitGroup) {
-	go func() {
-		for i := 0; i < 10; i++{
-			ch <- i
-		}
-		close(ch)
-		wg.Done()
-	}()
+func isCancelled(cancelChan chan struct{}) bool{
+	select {
+	case <-cancelChan:
+		return true
+	default:
+		return  false
+	}
 }
-func dataReceiver(ch chan int, wg *sync.WaitGroup,n int) {
-	go func() {
+
+func cancel(cancelChan chan struct{}){
+	//cancelChan <- struct{}{}
+	close(cancelChan)
+}
+func TestCancel(t *testing.T) {
+	cancelChan := make(chan struct{}, 0)
+	for i := 0; i < 5; i++ {
+		go func(i int, cancelChan chan struct{}) {
 			for {
-			if data, ok := <-ch; ok {
-				fmt.Println(data,n)
-			} else {
-				break
+				if isCancelled(cancelChan) {
+					break
+				}
+				time.Sleep(time.Millisecond * 5)
 			}
-		}
-		wg.Done()
-	}()
-}
-
-func TestClose(t *testing.T) {
-	var wg sync.WaitGroup
-	ch := make(chan int)
-	wg.Add(1)
-	dataProducer(ch,&wg)
-	wg.Add(1)
-	dataReceiver(ch,&wg,1)
-	wg.Add(1)
-	dataReceiver(ch,&wg,2)
-	wg.Wait()
+			fmt.Println(i, " is Cancelled")
+		}(i, cancelChan)
+	}
+	cancel(cancelChan)
+	time.Sleep(time.Second * 1)
 }

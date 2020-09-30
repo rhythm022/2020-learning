@@ -1,0 +1,21 @@
+<script >
+  function expensive(n = 100000) {
+    var i = 0;    while (++i < n * n) {}
+    return i;
+  };
+  
+  var cnt = 0
+
+
+  for (let i = 0; i < 30 ; i++) {
+    console.time(`Interval${i}`);
+
+  }
+  expensive();
+
+  var timer = setInterval(() => {
+        console.timeEnd(`Interval${cnt}`);
+        cnt++
+      },
+      300);
+</script>
