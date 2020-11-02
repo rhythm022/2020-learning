@@ -1,0 +1,3 @@
+### day01
+联合类型还可以用来处理更多情况。TypeScript中有两种特殊类型：null和undefined。除非在编译代码时使用了-strictNullChecks选项，或者在tsconfig.json文件中设置了strictNullChecks = true，否则可以将这两种类型赋值给任何类型。本书建议设置这个值，这样代码只会在必要的地方处理null，从而避免由于函数接受null值而产生意外情况。如果想允许使用null或undefined，则只需把它们添加为联合类型。
+
