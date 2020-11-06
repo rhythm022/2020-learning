@@ -24,7 +24,7 @@ enum TagType {
 
 // 起初，对类型使用readonly可能会让你感到困惑。这个关键字的含义是，当实例化类以后，就不能在该类中的其他位置重新创建tagType。这意味着我们能够安全地在构造函数中设置映射，后面不会调用this.tagType = new Map<TagType, string>();。
 // TagTypeToHtml类的单一职责是将tagType映射到HTML标签
-class TagTypeToHtml {
+class TagTypeToHtml {// TagTypeToHtml没有依赖注入
     private readonly tagType: Map<TagType, string> = new Map()
 
     constructor() {
@@ -95,13 +95,14 @@ interface Visitable {
 
 abstract class VisitorBase implements Visitor {
     constructor(
-        private readonly tagType: TagType,
-        private readonly TagTypeToHtml: TagTypeToHtml
+        private readonly tagType: TagType,// 配置型依赖注入
+        private readonly TagTypeToHtml: TagTypeToHtml// 服务型依赖注入
     ) {
     }
 
     // => OpeningTag/ClosingTag/Add
-    Visit(token: ParseElement, markdownDocument: MarkdownDocument): void {
+    // 到这里已经是最底层代码了
+    Visit(token: ParseElement, markdownDocument: MarkdownDocument): void {// 甲乙型依赖
         markdownDocument.Add(
             this.TagTypeToHtml.OpeningTag(this.tagType),
             token.CurrentLine,
@@ -112,7 +113,7 @@ abstract class VisitorBase implements Visitor {
 
 
 //以Header1Visitor为例，这个类只有一个职责：将当前行放到H1标签中，然后添加到markdown文档
-class Header1Visitor extends VisitorBase {
+class Header1Visitor extends VisitorBase {// ★★★，对外减少了耦合
     constructor() {
         super(TagType.Header1, new TagTypeToHtml());
     }
@@ -145,7 +146,7 @@ class HorizontalRuleVisitor extends VisitorBase {
 
 // => Visit
 class Visitable implements Visitable {
-    Accept(visitor: Visitor, token: ParseElement, markdownDocument: MarkdownDocument): void {
+    Accept(visitor: Visitor, token: ParseElement, markdownDocument: MarkdownDocument): void {//服务型依赖，甲乙型依赖
         visitor.Visit(token, markdownDocument)
     }
 }
@@ -154,7 +155,7 @@ class Visitable implements Visitable {
 abstract class Handler<T> {
     protected next: Handler<T> | null = null;
 
-    public SetNext(next: Handler<T>): void {
+    public SetNext(next: Handler<T>): void {// 服务型依赖，没通过constructor注入
         this.next = next
     }
 
@@ -172,19 +173,21 @@ abstract class Handler<T> {
 }
 
 
+//ParseChainHandler对应一个Visitor
+//Visitor的document是方法参数，ParseChainHandler的document是依赖注入
 class ParseChainHandler extends Handler<ParseElement> {
-    private readonly visitable: Visitable = new Visitable()
+    private readonly visitable: Visitable = new Visitable()// 基础设施，无需注入
 
     constructor(
-        private readonly document: MarkdownDocument,
-        private readonly tagType: string,// 如#
-        private readonly visitor: Visitor,// 如果有匹配的标签，指定的访问者将会访问类
+        private readonly document: MarkdownDocument,// 乙型依赖注入
+        private readonly tagType: string,//  配置型依赖注入  （#等）
+        private readonly visitor: Visitor,// 服务型依赖注入
     ) {
         super();
     }
 
     // => Accept
-    protected Handle(request: ParseElement): boolean {
+    protected Handle(request: ParseElement): boolean {// 甲型依赖
         let split = new LineParser().Parse(request.CurrentLine, this.tagType) // request.CurrentLine
         if (split[0]) {
             request.CurrentLine = split[1] // 替换/覆盖request.CurrentLine
@@ -213,7 +216,7 @@ class LineParser {//它能够帮助我们解析当前行，并判断当前行的
 // 我们知道段落没有关联的标签。如果类链中没有匹配的标签，则默认该文本是一个段落。
 class ParagraphHandler extends Handler<ParseElement> {
     private readonly visitable: Visitable = new Visitable();
-    private readonly visitor: Visitor = new ParagraphVisitor();
+    private readonly visitor: Visitor = new ParagraphVisitor();//ParagraphHandler和Visitor是硬耦合
 
     constructor(
         private readonly document: MarkdownDocument
@@ -229,7 +232,7 @@ class ParagraphHandler extends Handler<ParseElement> {
 
 }
 
-
+//Header1ChainHandler和tagType/Visitor是硬耦合，留出document
 class Header1ChainHandler extends ParseChainHandler {
     constructor(document: MarkdownDocument) {
         super(document, '# ', new Header1Visitor());
@@ -276,8 +279,8 @@ class ChainOfResponsibilityFactory {
 class Markdown {
     // => HandleRequest/document.Get
     public ToHtml(text: string): string {
-        let document: MarkdownDocument = new MarkdownDocumentImp()// 新的MarkdownDocument
-        let header1: Header1ChainHandler = new ChainOfResponsibilityFactory().Build(document)// 新的ChainHandler
+        let document: MarkdownDocument = new MarkdownDocumentImp()// 每次执行都是新的MarkdownDocument
+        let header1: Header1ChainHandler = new ChainOfResponsibilityFactory().Build(document)// 和新的ChainHandler
 
         let lines: string[] = text.split(`\n`)
 
@@ -293,7 +296,7 @@ class Markdown {
 
 
 class HtmlHandler {
-    private markdownChange: Markdown = new Markdown()
+    private markdownChange: Markdown = new Markdown() //HtmlHandler和Markdown硬耦合
 
     // => RenderHtmlContent
     public TextChangeHandler(id: string, outputId: string): void {
