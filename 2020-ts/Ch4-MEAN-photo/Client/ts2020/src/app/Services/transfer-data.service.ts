@@ -49,7 +49,8 @@ export class TransferDataService {
     this.addImage.context.subscribe(msg=>{
       if(msg === null) return
 
-      this.client.post<IPictureModel>('http://localhost:3000/addPicture/',msg,httpOptions)
+      this.client.post<IPictureModel>('http://localhost:3000/addPicture/',msg,httpOptions).subscribe(callback => {
+      })
     })
   }
 }

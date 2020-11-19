@@ -1,13 +1,14 @@
+export type ImageType = string | ArrayBuffer;
+
 export interface IPictureModel {
-  Image: string;
+  Image: ImageType;
   Name: string;
   Description: string;
   Tags: string;
 }
 
-
 export class PictureModel implements IPictureModel {
-  Image: string;
+  Image: ImageType;
   Name: string;
   Description: string;
   Tags: string;

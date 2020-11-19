@@ -7,7 +7,7 @@ import {IPictureModel, PictureModel} from '../types';
 export class FilePreviewServiceService {
 
   /*校验、读取*/
-  public async Preview(files: any): Promise<IPictureModel> {
+  public Preview(files: any): Promise<IPictureModel> {
     return new Promise((resolve, reject) => {
       if (files.length === 0) {
         return;
@@ -31,6 +31,4 @@ export class FilePreviewServiceService {
   }
 
 
-  constructor() {
-  }
 }
