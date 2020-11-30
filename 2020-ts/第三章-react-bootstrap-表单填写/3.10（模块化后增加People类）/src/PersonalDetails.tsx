@@ -8,6 +8,7 @@ import {PersonRecord} from "./Types";
 import {IRecordState, RecordState} from "./RecordState";
 import {PersonalDetailsTableBuilder} from "./PersonalDetailsTableBuilder";
 import {Database} from "./Database/Database";
+import {People} from "./People";
 
 
 interface IProps {
@@ -26,7 +27,7 @@ export default class PersonalDetails extends React.Component<IProps, IPersonStat
     private defaultState: Readonly<IPersonState>;
     private readonly dataLayer:Database<PersonRecord>
     private people:IPersonState[] = []
-
+    private peopleCon :People
     constructor(props: IProps) {
         super(props);
         // 储存必要时可以重置的默认信息
@@ -37,6 +38,9 @@ export default class PersonalDetails extends React.Component<IProps, IPersonStat
 
         const tableBuilder:PersonalDetailsTableBuilder = new PersonalDetailsTableBuilder()
         this.dataLayer = new Database(tableBuilder.Build())
+
+
+        this.peopleCon = new People()
     }
 
     private updateBinding = (event: any) => {

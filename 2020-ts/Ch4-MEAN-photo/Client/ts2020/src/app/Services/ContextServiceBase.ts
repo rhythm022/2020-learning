@@ -6,7 +6,7 @@ export class ContextServiceBase{
   constructor() {
   }
 
-  context = this.source.asObservable()
+  public context = this.source.asObservable()
 
   public add(image:IPictureModel):void{
     this.source.next(image)

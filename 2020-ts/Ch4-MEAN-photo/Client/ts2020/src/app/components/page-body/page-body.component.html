@@ -1,9 +1,12 @@
 <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1%" fxLayoutAlign="left">
   <mat-card class="picture-card-layout" *ngFor="let picture of Pictures">
     <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
+<!--      信息-->
       <span fxFlex="80%">{{picture.Name}}</span>
     </mat-card-title>
+    <!--      信息-->
     <img mat-card-image [src]="picture.Image" />
+    <!--      信息-->
     <p>{{picture.Description}}</p>
   </mat-card>
 </div>

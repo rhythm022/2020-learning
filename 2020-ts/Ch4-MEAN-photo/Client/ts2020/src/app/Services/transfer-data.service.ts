@@ -19,13 +19,15 @@ export class TransferDataService {
     this.SubscribeToAddImageContextChanges()
     this.LoadImagesWithSubscription()
   }
-  // 初始化时加载图片
+  // 我的职责：下载照片，然后通知大家，剩下的我不管
   private LoadImagesWithSubscription() {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/text',
       })
     };
+
+
     this.client.get<string[]>('http://localhost:3000/getPictures/', httpOptions).subscribe(pic=>{
       pic.forEach(img=>{
         this.client.get<IPictureModel>('http://localhost:3000/findPictureById/' + img).subscribe(pic1 =>{
@@ -37,7 +39,7 @@ export class TransferDataService {
   }
 
 
-  // 增加图片时自动上传
+  // 我的职责是：一旦有新增，我就上传，剩下我不管
   private SubscribeToAddImageContextChanges(){
     const httpOptions = {
       headers:new HttpHeaders({

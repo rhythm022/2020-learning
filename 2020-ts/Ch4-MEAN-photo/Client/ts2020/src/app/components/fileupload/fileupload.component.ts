@@ -9,8 +9,8 @@ import {FilePreviewServiceService} from '../../Services/file-preview-service.ser
   styleUrls: ['./fileupload.component.scss']
 })
 export class FileuploadComponent implements OnInit {
-  protected imageSource: IPictureModel | null;
   protected message:any;
+  protected imageSource: IPictureModel | null;
   protected description:string;
   protected tags:string
 
@@ -23,7 +23,7 @@ export class FileuploadComponent implements OnInit {
   ngOnInit() {
   }
 
-  /* :Preview，更新this.imageSource、this.message */
+  // 本组件的职能：事前收集files，事后反馈imageSource、message，事中由preview.Preview处理
   public OnImageSelected(files:any):void{
     this.preview.Preview(files).then(r=>{
       this.imageSource = r
@@ -32,21 +32,13 @@ export class FileuploadComponent implements OnInit {
     })
   }
 
-  /* 更新this.imageSource */
+  // ★★★ 组件的职责只有收集和反馈原始信息，反馈给界面/父组件/service
+  //
   public Save():void{
     this.imageSource.Description = this.description
     this.imageSource.Tags = this.tags
 
     this.dialog.close(this.imageSource)
   }
-
-
-
-
-
-
-
-
-
 
 }
