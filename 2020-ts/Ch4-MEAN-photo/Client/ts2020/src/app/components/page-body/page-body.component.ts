@@ -19,8 +19,9 @@ export class PageBodyComponent implements OnInit {
     this.Pictures = new Array<IPictureModel>()
   }
 
-  // ★★★ 组件是操作和信息的集合。信息是基于ngOnInit操作的。
-  // 组件的职责：一旦有后端数据过来，反馈信息。一旦新增，反馈信息。
+
+  // 组件的职责：
+  // 组件的职责：一旦有后端数据过来，触发DOM。一旦新增，触发DOM。
   ngOnInit() {
     this.transfer.Initialize()
     this.loadImage.context.subscribe(msg=>{

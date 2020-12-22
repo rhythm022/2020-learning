@@ -16,12 +16,11 @@ export class AppComponent {
   ) {
   }
 
-  // 组件：操作区和信息区的集合。
-  // - 操作区和信息区过多（无法容纳在一个界面）就需要调用专门组件/子组件。调用子组件仅仅意味着在另一个地方收集和传递信息。
-  // ★★★ 组件的职责只有收集和传递信息，传递给HTML/组件/service
-  // ★★★ 操作一定是组件和service的合作：组件负责收集和传递信息、调用子组件，其他全由service负责。
-  // 比如这里，由专门组件收集信息，传递给父组件，父组件传递给service处理。为什么专门组件不直接传递给service？？
-  // - 因为专门组件只传递信息，而不指定更具体传给谁，这样可以保持专门组件的可复用性
+  // 界面：操作区和信息区的集合。
+  // ★★★ 组件的职责是触发service触发DOM。
+  // 操作的背后就是service的执行和DOM的刷新。
+  // 组件把信息交给父组件，父组件触发service，为什么组件不直接触发service？？
+  // --- 答：这里组件只传递信息，而不指定更具体传给谁，这样的选择可以保持组件的可复用性
   //:=> addImage.add
   public ImportImage():void{
     const config = new MatDialogConfig()
@@ -35,7 +34,7 @@ export class AppComponent {
     this.dialogRef.afterClosed().subscribe(r=>{
       if(r){
 
-        // 我不管，反正有新增，剩下的不是我的职责
+        // 触发service
         this.addImage.add(r)
       }
     })

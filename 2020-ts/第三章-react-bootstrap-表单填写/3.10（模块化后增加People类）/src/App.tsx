@@ -6,7 +6,7 @@ import {IPersonState} from "./State";
 export default class App extends React.Component {
     private defaultPerson:IPersonState = {// 默认值在父组件定义在传给子组件，为什么？？
         PersonId:'',
-        FirstName:'',
+        FirstName:'default',
         LastName:'',
         Address1:'',
         Address2:'',

@@ -7,6 +7,7 @@ import {IPictureModel} from '../types';
 @Injectable({
   providedIn: 'root'
 })
+// ★★★ service与service交互
 export class TransferDataService {
 
   constructor(
@@ -39,14 +40,19 @@ export class TransferDataService {
   }
 
 
-  // 我的职责是：一旦有新增，我就上传，剩下我不管
+  // ★★★ 触发别人的方法有两种方式：拿到对方的生命/依赖注入、直接拿到对方的方法/emit机制/方法传参
+  // 利用emit机制不需要拿到父组件的生命
+
+  // 旧模式中，子组件承担了事件service的职能（父组件就是他的监听者），也承担了触发业务service的职能。
+  // 事件模式中，组件不再承担触发业务service的职能，同时也把事件service的职能独立出来，而是触发独立的事件service:开启一个事件，在事件中触发业务service、触发组件
+
+  // ★★★★ 事件模式中，一个方法属于一个业务service/监听者，并可能从属于多个事件service/事件类
   private SubscribeToAddImageContextChanges(){
     const httpOptions = {
       headers:new HttpHeaders({
         'Content-Type': 'application/json',
       })
     }
-
 
     this.addImage.context.subscribe(msg=>{
       if(msg === null) return

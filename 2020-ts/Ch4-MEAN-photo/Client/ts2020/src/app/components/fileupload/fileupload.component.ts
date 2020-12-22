@@ -23,7 +23,7 @@ export class FileuploadComponent implements OnInit {
   ngOnInit() {
   }
 
-  // 本组件的职能：事前收集files，事后反馈imageSource、message，事中由preview.Preview处理
+  // 组件的职能：触发service/触发DOM
   public OnImageSelected(files:any):void{
     this.preview.Preview(files).then(r=>{
       this.imageSource = r
@@ -32,8 +32,7 @@ export class FileuploadComponent implements OnInit {
     })
   }
 
-  // ★★★ 组件的职责只有收集和反馈原始信息，反馈给界面/父组件/service
-  //
+  // 组件的职能：触发其他组件
   public Save():void{
     this.imageSource.Description = this.description
     this.imageSource.Tags = this.tags

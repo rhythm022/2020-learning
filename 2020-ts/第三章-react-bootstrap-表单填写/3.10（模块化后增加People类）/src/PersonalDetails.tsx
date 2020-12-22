@@ -4,10 +4,6 @@ import Col from 'reactstrap/lib/Col';
 import Row from 'reactstrap/lib/Row';
 import {IPersonState} from "./State";//规范既不在父组件也不在子组件，在第三方
 import FormValidation from './FormValidation'
-import {PersonRecord} from "./Types";
-import {IRecordState, RecordState} from "./RecordState";
-import {PersonalDetailsTableBuilder} from "./PersonalDetailsTableBuilder";
-import {Database} from "./Database/Database";
 import {People} from "./People";
 
 
@@ -16,31 +12,26 @@ interface IProps {
 }
 
 
-// ★★★ 组件和数据库交互的关键是理解people和person/state的流动
-// 一开始，没有People只有person/state，组件把person/state给数据库，加入到数据库记录列表中
-// 这样后，组件再从数据库得到Person列表，加载到自己这儿为People，并映射到界面上
-// People中被选中的person成为state，组件拿着state与数据库交互。
-// ★★★ 组件把数据库数据加载到自己people这儿，到再一次从数据库更新people前，people是readonly的
-// ★★★★★ 这样之后，就造成了现在push-pull的模式
+// ★★★ 一般流程是信息push to service，pull from service，push to界面。再push to service循环。
+// --- 比如一开始没有person，组件收集person传递给service，这样后，组件再从service保存一份最新的person，push to界面。
+// --- 比如这里people中被选中的person是state，people不是state。
 export default class PersonalDetails extends React.Component<IProps, IPersonState> {// 为属性和状态建立规范
     private canSave: boolean = false;
     private defaultState: Readonly<IPersonState>;
-    private readonly dataLayer:Database<PersonRecord>
-    private people:IPersonState[] = []
-    private peopleCon :People
+    private people: IPersonState[] = []
+    private peopleService: People
+
     constructor(props: IProps) {
         super(props);
-        // 储存必要时可以重置的默认信息
-        // 储存这个页面的信息
-        // 所有的存储信息都是为了传递信息。★★★传递信息完全依赖于函数调用
+        // 储存必要时可以重置的默认信息。储存这个页面的信息。
+        // 所有的收集、存储的信息都是为了传递信息。
+        // ★★★传递信息完全依赖于函数调用
         this.defaultState = props.DefaultState
         this.state = props.DefaultState
 
-        const tableBuilder:PersonalDetailsTableBuilder = new PersonalDetailsTableBuilder()
-        this.dataLayer = new Database(tableBuilder.Build())
 
 
-        this.peopleCon = new People()
+        this.peopleService = new People()
     }
 
     private updateBinding = (event: any) => {
@@ -83,22 +74,21 @@ export default class PersonalDetails extends React.Component<IProps, IPersonStat
 
     public render() {
         let people = null
-        if(this.people.length){
+        if (this.people.length) {
             const copyThis = this
             people = this.people.map(function it(p) {
                 return (
                     <Row key={p.PersonId}>
                         <Col lg="6"><label>{p.FirstName} {p.LastName}</label></Col>
-                        <Col lg="3"><Button value={p.PersonId} color="link" onClick={copyThis.setActive}>Edit</Button></Col>
-                        <Col lg="3"><Button value={p.PersonId} color="link" onClick={copyThis.delete}>Delete</Button></Col>
+                        <Col lg="3"><Button value={p.PersonId} color="link"
+                                            onClick={copyThis.setActive}>Edit</Button></Col>
+                        <Col lg="3"><Button value={p.PersonId} color="link"
+                                            onClick={copyThis.delete}>Delete</Button></Col>
                     </Row>
                 )
 
-            },this)
+            }, this)
         }
-
-
-
 
 
         return (
@@ -209,74 +199,60 @@ export default class PersonalDetails extends React.Component<IProps, IPersonStat
             </Row>);
     }
 
-    private clear = ()=>{
+    private clear = () => {
         this.setState(this.defaultState)
     }
 
 
-    private setActive = (event:any) =>{// 进入编辑状态
-        const person:string = event.target.value
+    private setActive = (event: any) => {// 进入编辑状态
+        const person: string = event.target.value
 
-        // person的查询逻辑是否应该有专门People处理？？
+        // 该逻辑不属于peopleService处理
         const state = this.people.find((element:IPersonState)=>element.PersonId === person)
-        if(state)
+        if (state)
             this.setState(state)
     }
 
-    private delete = (event:any)=>{
-        const person:string = event.target.value
+    private delete = (event: any) => {
+        const person: string = event.target.value
         this.DeletePerson(person)
     }
 
-    private async DeletePerson(person:string){//软删除：设置该数据库记录为no active
-        const foundPerson = this.people.find((element:IPersonState)=>element.PersonId === person)
-        if(!foundPerson) return
-
-        const personState:IRecordState = new RecordState()
-        personState.IsActive = false;
-        const state: PersonRecord = {...foundPerson,...personState}
-
-        await this.dataLayer.Update(state)
+    private async DeletePerson(person: string) {//软删除：设置该数据库记录为no active
+        await this.peopleService.deletePerson(person)
 
         this.loadPeople()
         this.clear()
     }
 
-    private loadPeople = ()=>{
-        this.people = new Array<PersonRecord>()
-        this.dataLayer.Read().then(people=>{
-            this.people = people
-            this.setState(this.state)// 单纯触发更新页面???
+    private loadPeople = () => {
+        this.peopleService.loadPeople().then(() => {
+            this.people = this.peopleService.getPeople()
+            this.setState(this.state)// 触发更新页面
+
         })
     }
 
 
-
-
-    private savePerson = () =>{
-        if(!this.canSave){
+    private  savePerson = async() => {
+        if (!this.canSave) {
             alert(`输入信息有错误，无法保持`)
             return
         }
-        const personState:IRecordState = new RecordState()
-        personState.IsActive = true
-        const state:PersonRecord = {...this.state,...personState}
 
-        if(state.PersonId === ''){// 数据库中没有
-            state.PersonId = Date.now().toString()
-            this.dataLayer.Create(state)
+        if (this.state.PersonId === '') {// 数据库中没有
+            this.peopleService.createPerson(this.state)
 
             this.loadPeople()
             this.clear()
 
-        }
-        else{
-            this.dataLayer.Update(state).then(()=> {
-                this.loadPeople()
-            })
+        } else {
+            await this.peopleService.updatePerson(this.state)
+
+            this.loadPeople()
+
         }
     }
-
 
 
 }
