@@ -6,7 +6,7 @@ import '../pad'
 
 
 
-console.log((5).pad(3))
+console.log((666).pad(3))
 
 
 

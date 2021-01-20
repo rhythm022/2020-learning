@@ -1,0 +1,42 @@
+{
+  "name": "2020-lagou-webpack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --config webpack.prod.config.js",
+    "rollup": "npx rollup --config rollup.config.js",
+    "watch": "webpack --watch",
+    "serve": "serve dist",
+    "sync": "browser-sync dist --watch",
+    "dev": "npx webpack-dev-server --open --config webpack.dev.config.js"
+  },
+  "sideEffects": [
+    "./pad",
+    "*.css"
+  ],
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "10",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^6.0.0",
+    "css-loader": "^5.0.1",
+    "html-webpack-plugin": "^4.5.0",
+    "marked": "^1.2.7",
+    "mini-css-extract-plugin": "^1.3.3",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
+    "rollup": "^2.35.1",
+    "rollup-plugin-node-polyfills": "^0.2.1",
+    "style-loader": "^2.0.0",
+    "terser-webpack-plugin": "4",
+    "webpack": "4.42.1",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "4"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "lodash-es": "^4.17.20"
+  }
+}

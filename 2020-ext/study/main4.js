@@ -1,29 +1,20 @@
 Ext.onReady(() => {
-
-
-
-
-
-
-
-
   Ext.define('win.CTFIIndexGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'WINCTFIIndexGrid',
-    columnLines : true,
     trackMouseOver: false,
     initComponent: function() {
       Ext.apply(this, {
         columns: [],
         viewConfig: {
-          getRowClass: function() {
+          getRowClass: function(record, rowIndex, rowParams, store) {
             return 'grid-row-mine';
           },
         },
         renderTo: Ext.getBody(),
         listeners: {
           afterLayout: function(a) {
-            mergeGrid(a);
+            mergeGrid(a, [0,1,2,4]);
           },
         },
 
@@ -40,36 +31,10 @@ Ext.onReady(() => {
     scope: this,
     success: function(response) {
       var CTFIIndex = Ext.JSON.decode(response.responseText);
-      var CT0;
-      var CT1;
-      var CT2;
-      var CT3;
-      for(var i=0;i<CTFIIndex.length;i++){
-        if(CTFIIndex[i].lcode ==='CT0'){
-          CT0 = CTFIIndex[i]
-        }
-        if(CTFIIndex[i].lcode ==='CT1'){
-          CT1 = CTFIIndex[i]
-        }
-        if(CTFIIndex[i].lcode ==='CT2'){
-          CT2 = CTFIIndex[i]
-        }
-        if(CTFIIndex[i].lcode ==='CT3'){
-          CT3 = CTFIIndex[i]
-        }
-      }
-      var CT0Row = [
-        {
-          lname: CT0.lname,
-          //
-          unit: CT0.rateUnit,
-          weight: CT0.weight,
-          current: CT0.rate,
-          pre: CT0.pre,
-          lastWeek: CT0.lastweek,
-        }
-      ];
+      console.log(CTFIIndex);
+      var CT0 = CTFIIndex[0];
 
+      var CT1 = CTFIIndex[1];
       var CT1Row = [
         {
           lname: CT1.lname,
@@ -124,6 +89,7 @@ Ext.onReady(() => {
         },
       ];
 
+      var CT2 = CTFIIndex[2];
       var CT2Row = [
         {
           lname: CT2.lname,
@@ -178,6 +144,7 @@ Ext.onReady(() => {
         },
       ];
 
+      var CT3 = CTFIIndex[3];
       var CT3Row = [
         {
           lname: CT3.lname,
@@ -213,7 +180,7 @@ Ext.onReady(() => {
           {name: 'pre', type: 'string'},
           {name: 'lastWeek', type: 'string'},
         ],
-        data: CT0Row.concat(CT1Row).concat(CT2Row).concat(CT3Row),
+        data: CT1Row.concat(CT2Row).concat(CT3Row),
       });
 
       grid.reconfigure(store, [
@@ -261,8 +228,10 @@ Ext.onReady(() => {
 /**
  * 合并Grid的数据列
  * @param grid {Ext.Grid.Panel} 需要合并的Grid
+ * @param colIndexArray {Array} 需要合并列的Index(序号)数组；从0开始计数，序号也包含。
+ * @param isAllSome {Boolean} 是否2个tr的colIndexArray必须完成一样才能进行合并。true：完成一样；false：不完全一样
  */
-function mergeGrid(grid) {
+function mergeGrid(grid, colIndexArray) {
 
   // 1.是否含有数据
   var gridView = document.getElementById(grid.getView().getId());
@@ -273,31 +242,36 @@ function mergeGrid(grid) {
   // 2.获取Grid的所有tr
   var trArray = gridView.getElementsByTagName('tr');
 
-  if (!trArray.length || trArray.length < 14) return;
+  if (!trArray.length) return;
+  // 3.进行合并操作
+  // 1)遍历列的序号数组
+  for (var i = 0, colArrayLength = colIndexArray.length; i <
+  colArrayLength; i++) {
+    var colIndex = colIndexArray[i];
+    var startTr = trArray[0]; // 合并tr，默认为第一行数据
+    // 2)遍历grid的tr，从第二个数据行开始
+    for (var j = 1; j < trArray.length; j++) {
+      var currentTr = trArray[j];
+      // 3)2个tr的td内容一样
+      if (startTr.childNodes[colIndex].innerText ==
+          currentTr.childNodes[colIndex].innerText) {
 
-  merge(trArray,0,2,6)
-  merge(trArray,0,7,11)
-  merge(trArray,0,12,13)
+        if (startTr.childNodes[colIndex].hasAttribute('rowspan')) {
+          var rowspan = Number(
+              startTr.childNodes[colIndex].getAttribute('rowspan')) + 1;
 
-  merge(trArray,1,2,6)
-  merge(trArray,1,7,11)
-  merge(trArray,1,12,13)
+          startTr.childNodes[colIndex].setAttribute('rowspan', rowspan);
+        } else {
+          startTr.childNodes[colIndex].setAttribute('rowspan', '2');
+        }
+        startTr.childNodes[colIndex].style['vertical-align'] = 'middle';// 纵向居中
 
-  merge(trArray,2,2,6)
-  merge(trArray,2,7,11)
-  merge(trArray,2,12,13)
+        currentTr.childNodes[colIndex].style['display'] = 'none'; // 当前单元格隐藏
 
-  merge(trArray,4,3,6)
-  merge(trArray,4,8,11)
-}
-
-
-function merge(trArray,colNum,startRowNum,endRowNum) {
-  trArray[startRowNum].childNodes[colNum].setAttribute('rowspan', String(endRowNum-startRowNum +1));
-  trArray[startRowNum].childNodes[colNum].style.verticalAlign = 'middle';// 纵向居中
-
-  for (let i = 0; i < endRowNum - startRowNum; i++) {
-    trArray[i + startRowNum + 1].childNodes[colNum].style['display'] = 'none'; // 当前单元格隐藏
-
+      } else {
+        // 5)2个tr的td内容不一样
+        startTr = currentTr;
+      }
+    }
   }
 }

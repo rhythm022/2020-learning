@@ -4,6 +4,9 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const RemoveWebpackPlugin = require('./remove-comments-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   optimization: { // production模式下会自动优化的项，如果在平时也要生效则需配置
@@ -13,7 +16,11 @@ module.exports = {
     // sideEffects: true,//?? 检查一个模块的sideEffects声明，对于未声明sideEffects字段的，其模块内副作用代码全保留，诸如console.log、Number.prototype.pad等
     //?? - sideEffects为false，其模块内副作用代码全删除
     //?? - sideEffects为列表的，其模块内副作用代码全删除
+    minimizer: [
+        new TerserWebpackPlugin(),
+      new OptimizeCssAssetsWebpackPlugin(),
 
+    ],
     // concatenateModules: true, // 原来每个module会打包进bundle的一个函数中，设为false后，所有module尽可能打包进一个函数中
     splitChunks: {
       chunks: 'all',
@@ -37,7 +44,7 @@ module.exports = {
     },
     contentBase: path.join(__dirname, 'static'),//静态文件
     compress: false,
-    port: 9000,
+    port: 5000,
   },
   entry: {
     index: './src/index.js',
@@ -45,6 +52,10 @@ module.exports = {
   },
   mode: 'none',
   plugins: [
+      new MiniCssExtractPlugin(),
+      new webpack.DefinePlugin({
+        API_BASE_URL:JSON.stringify('http://api.example.com')
+      }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Webpack App JJ',
@@ -76,7 +87,8 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,// 当css文件大小超过200KB，建议单独提取出来请求
+          // 'style-loader',
           'css-loader',
         ],
       },
