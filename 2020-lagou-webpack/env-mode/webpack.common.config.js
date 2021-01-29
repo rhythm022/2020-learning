@@ -68,11 +68,11 @@ module.exports = {
       filename: 'about.html',
       chunks: ['about'],
     }),
-    // new CopyWebpackPlugin({
-    //   patterns: [
-    //     {from: 'static', to: 'static'},
-    //   ],
-    // }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {from: 'static', to: 'static'},
+      ],
+    }),
     new RemoveWebpackPlugin(),
     // new webpack.NamedModulesPlugin(),
     // new webpack.HotModuleReplacementPlugin(),
