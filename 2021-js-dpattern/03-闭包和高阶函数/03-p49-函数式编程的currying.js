@@ -3,7 +3,7 @@ const cost = (function () {
     const args = []
 
     return function () {
-        if (arguments.length === 0) {// 执行闭包主方法
+        if (arguments.length === 0) {// 执行最终逻辑
             let ret = 0
             args.forEach(v => ret += v)
 

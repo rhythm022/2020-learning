@@ -1,13 +1,13 @@
 
 // 原函数target_fn为闭包内方法/回调函数
 // ret为闭包内状态
-// 闭包主方法耦合ret、target_fn
+// 闭包主函数耦合ret、target_fn
 
 const single = function (target_fn){
     let ret
     
     return function(){
-        // 闭包主方法：当ret为null时，执行回调函数
+        // 闭包主函数：当ret为null时，执行回调函数
         return ret || (ret = target_fn.apply(this,arguments))
     }
 }
