@@ -1,0 +1,134 @@
+<html><head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>块格式化上下文</title>
+	<!--<link rel="stylesheet" href="http://coding.imweb.io/demo/reset.css">-->
+	<style type="text/css">
+		.block {
+			margin-top: 20px;
+			margin-bottom: 20px;
+			padding: 10px;
+			background: #96c4e6;
+		}
+		.block--2 {
+			margin-left: 30px;
+			margin-right: 100px;
+		}
+		.block--3 {
+			width: 300px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.block--4 {
+			width: 300px;
+			margin-left: auto;
+		}
+		.block-wrap {
+			background: #ddd;
+			padding-bottom: 1px;
+            margin-top: 10px;
+		}
+		.block--5 {
+			margin-bottom: 10px;
+		}
+		.block--6 {
+			margin-top: 30px;
+			margin-bottom: 30px;
+		}
+		.block--9 {
+			margin-bottom: -10px;
+		}
+		.block--10 {
+			padding-top: 10px;
+			padding-bottom: 10px;
+			/*background: #c7e1f0;*/
+		}
+		.block--11 {
+			margin-top: -30px;
+			background: rgba(0, 0, 0, .5);
+		}
+		.block--12 {
+			margin-bottom: -10px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+		.block--13 {
+			margin-top: -5px;
+			background: rgba(0, 0, 0, .5);
+		}
+		.wrap--overflow {
+			overflow: hidden;
+		}
+		.cb {
+			clear: both;
+		}
+		.fl {
+			float: left;
+		}
+	</style>
+</head>
+<body>
+	<h1>块格式化上下文（block formatting context 简称 BFC）</h1>
+    <p>在一个 BFC 里，盒子会在垂直方向一个接一个地放置，盒子垂直方向的距离由上下 margin 决定。</p>
+    <h2>BFC 作用于块级子元素</h2>
+    <img src="http://coding.imweb.io/img/p3/vfm/bfc-rule.png" alt="">
+	<h2>水平方向宽度计算</h2>
+	<p>在一个 BFC 里，一个块级元素总是占满整行的宽度，其计算公式如下：</p>
+	<p>full width = margin + border + padding + width  =&gt;  margin + width  =&gt;  margin-left + width + margin-right</p>
+	<h3>margin 和 width 都为默认值（分别为0，auto）</h3>
+	<p class="block block--1">block 1</p>
+	
+	<h3>margin 左右取值，width 为默认值</h3>
+	<p class="block block--2">block 2</p>
+
+	<h3>margin 左右为 auto，width 取值</h3>
+	<p class="block block--3">block 3</p>
+
+	<h3>margin 左为 auto，width 取值</h3>
+	<p class="block block--4">block 4</p>
+
+	<h2>垂直方向间距计算</h2>
+	<p>在一个 BFC 里，盒子垂直方向的距离由上下 margin 决定，在同一个 BFC 中，垂直方向相接的间距会发生合并。如都为正值，则取最大值；如一正一负，则取相加后的值；如都为负，则取绝对值大的那个。</p>
+	<h3>正值合并</h3>
+	<p class="block block--5">block 5 margin-bottom 为 10px</p>
+	<p class="block block--6">block 6 margin-top、margin-bottom 都为 30px</p>
+	<div class="block-wrap">
+		<p class="block block--7">block 7 被包裹了一层父级元素 block wrap，其 margin-top 为 10px。由于 block 7、block wrap 的 margin-top 直接与 block 6 的 margin-bottom 相接，所以三者会发生合并并取最大值。而其 margin-bottom，由于父级元素设置了一个 padding-bottom，隔开了与 block 8 的 margin-top 相接，所以不会合并 。 </p>
+	</div>
+	<p class="block block--8">block 8</p>
+	<h3>正负合并</h3>
+	<p class="block block--9">block 9 margin-bottom 为 -10px</p>
+	<p class="block block--10">block 10 margin-top、margin-bottom 为 20px</p>
+	<p class="block block--11">block 11 margin-top 为 -30px</p>
+	<h3>负值合并</h3>
+	<p class="block block--12">block 12 margin-bottom 为 -10px</p>
+	<p class="block block--13">block 13 margin-top 为 -5px</p>
+	<h3>不同的 BFC，垂直方向相接的 margin 不合并</h3>
+	<p class="block block--14">block 14 margin-bottom 为 10px</p>
+	<div class="block-wrap wrap--overflow">	
+		<p class="block block--15">block 13 margin-top 为 10px。父元素新建了一个 BFC，所以 margin 没有合并</p>
+	</div>
+	<h2>匿名块盒</h2>
+	<p>块容器盒要么只包含行内级盒，要么只包含块级盒。但通常文档会同时包含两者。在这种情况下，将创建匿名块盒来包含毗邻的行内级盒。(这也就是后面所说的IFC里面绝不会包含块级元素)</p>
+	<div class="block-wrap">
+		我是直接文本
+		<p class="block">我是块级元素，但是我的前后都不是</p>
+		我也是直接文本
+	</div>
+	<h2>BFC 容器高度包括浮动元素</h2>
+	<p>默认没有新建一个BFC，block-wrap 没有包括浮动图片的高度</p>
+	<div class="block-wrap">
+		<img class="fl" src="http://placehold.it/200" alt="">
+		<p class="block">我是块级元素</p>
+	</div>
+	<p class="cb">新建一个BFC，block-wrap 包括浮动图片的高度</p>
+	<div class="block-wrap wrap--overflow">
+		<img class="fl" src="http://placehold.it/200" alt="">
+		<p class="block">我是块级元素</p>
+	</div>
+
+
+
+
+</body></html>
