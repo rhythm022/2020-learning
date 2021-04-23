@@ -16,7 +16,7 @@ const config = {
   devServer: {
     contentBase: path.join(__dirname, 'static'),
     compress: true,
-    port: 9000,
+    port: 9001,
     proxy: {
       '/api': {
         target: 'https://api.github.com',

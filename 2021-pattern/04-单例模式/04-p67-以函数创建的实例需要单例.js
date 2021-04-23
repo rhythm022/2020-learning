@@ -1,5 +1,6 @@
-const getSingle = function(func){
-
+// 如果一个函数是以返回对象为职责的
+// 只执行一次这个函数，返回对象就是单例对象
+const single = function(func){
     let instance
     return function(){
         return instance || (instance = func.apply(this,arguments))
@@ -7,18 +8,19 @@ const getSingle = function(func){
     }
 }
 
-function createModalWindow(){
-    const div = document.createElement('div')
+
+
+
+const singletonModalWindow = single(function modalWindow(){
+    const div = Object.create(null)
     div.innerHTML = '我是登录悬浮窗'
 
     return div
-}
 
+})
 
-const createSingletonModalWindow = getSingle(createModalWindow)
-
-const modal1 = createSingletonModalWindow()
-const modal2 = createSingletonModalWindow()
+const modal1 = singletonModalWindow()
+const modal2 = singletonModalWindow()
 
 
 console.log(modal1 === modal2)

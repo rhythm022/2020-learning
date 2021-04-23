@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+</body>
+<script>
+    const nodes = document.getElementsByTagName('div')
+
+    // 多个作用域共用一个闭包对象nodes/index
+    for (var index = 0; index < nodes.length; index++) {
+        nodes[index].onclick = function(){
+            console.log(index)
+        }
+        
+    }
+    ///////////////////////////////////////////
+    //修复
+    for (var index = 0; index < nodes.length; index++) {
+        (function(index){
+            nodes[index].onclick = function(){
+                    console.log(index)
+                }
+        })(index)
+    }
+ 
+</script>
+</html>

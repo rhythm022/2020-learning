@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>浮动元素如何定位</title>
+	<!--<link rel="stylesheet" href="http://coding.imweb.io/demo/reset.css">-->
+	<style type="text/css">
+		.block {
+			background: #f5f5f5;
+			overflow: hidden;
+			margin: 20px;
+			max-width: 470px;
+		}
+		.fl {
+			float: left;
+		}
+		.fr {
+			float: right;
+		}
+		.cl {
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+<div class="block">
+	<div>这是块级元素的一段话，兄弟元素 img 右浮动</div>
+	<img class="fr" width="120" src="http://coding.imweb.io/img/img-style.png" />
+</div>
+<div class="block">
+	<span>这是行内元素的一段话，兄弟元素 img 右浮动</span>
+	<img class="fr" width="120" src="http://coding.imweb.io/img/img-style.png" />
+</div>
+<div class="block">
+	<span>这是行内元素的一段话，兄弟元素 img 右浮动，现在把文字搞多点，现在把文字搞多点，现在把文字搞多点，现在把文字搞多点，让它多行 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.	</span>
+	<img class="fr" width="120" src="http://coding.imweb.io/img/img-style.png" />
+</div>
+<div class="block">
+	<span>这是行内元素的一段话，兄弟元素 img 左浮动，现在把文字搞多点，现在把文字搞多点，现在把文字搞多点，现在把文字搞多点，让它多行 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exerci<img class="fl" width="120" src="http://coding.imweb.io/img/img-style.png" />tation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.	</span>
+	
+</div>
+<div class="block">
+	<div>这是块级元素的一段话，兄弟元素 img 右浮动 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud <img class="fr" width="120" src="http://coding.imweb.io/img/img-style.png" />exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.	</div>
+	
+</div>
+</body>
+</html>
+
+
