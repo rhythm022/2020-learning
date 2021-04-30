@@ -3,10 +3,9 @@ function throttle(func, interval = 500) {
     let baseTime = Date.now()
 
     return function () {
-        clearTimeout(timer)
+        clearTimeout(timer) // important
 
-        let doTime = Date.now()
-        let remainning = interval - (doTime - baseTime)
+        let remainning = interval - (Date.now() - baseTime)
 
         if (remainning <= 0) {
             func.apply(this, arguments)
