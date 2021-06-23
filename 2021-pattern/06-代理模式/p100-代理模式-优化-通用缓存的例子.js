@@ -1,3 +1,6 @@
+
+
+//代理函数的构造函数
 function cache(func) {
   const ca = new Map();
 

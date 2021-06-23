@@ -1,4 +1,4 @@
-const EventEmitter = function (){
+function EventEmitter(){
     return {
         eventCallbacks:{},
         subscribe:function(eventName,cb){
@@ -33,18 +33,23 @@ const EventEmitter = function (){
 }
 
 
+const subscriberS = ()=>console.log('S')
 
 
-
+// 组合
 const installEvent = function(target){
     return Object.assign({},target,new EventEmitter())
 }
 
-const publisher = installEvent({})
-const subscriberS = ()=>console.log('S')
-const subscriberSS = ()=>console.log('SS')
-publisher.subscribe('eventA',subscriberS)
-publisher.subscribe('eventA',subscriberSS)
-publisher.trigger('eventA')
-publisher.cancelSubscribe('eventA',subscriberS)
-publisher.trigger('eventA')
+const publisherA = installEvent({})
+publisherA.subscribe('eventA',subscriberS)
+publisherA.trigger('eventA')
+
+
+
+
+// 独立
+// 独立的缺点在于我们最终会搞不清楚事件/信息来自哪个模块，事件/信息优惠流向哪个模块
+const globalSingleton = new EventEmitter()
+globalSingleton.subscribe('eventA',subscriberS)
+globalSingleton.trigger('eventA')
