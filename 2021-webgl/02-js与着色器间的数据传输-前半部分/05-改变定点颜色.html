@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        margin: 0;
+        overflow: hidden;
+    }
+    #canvas{
+        background-color: antiquewhite;
+    }
+</style>
+<body>
+    <canvas id="canvas"></canvas>
+    <script id="vertexShader" type="x-shader/x-vertex">
+        attribute vec4 a_Position;
+        attribute float a_PointSize;
+        void main(){
+            gl_Position=a_Position;
+            gl_PointSize=a_PointSize;
+        } 
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        precision mediump float;
+        uniform vec4 u_FragColor;
+
+        void main(){
+            gl_FragColor=u_FragColor;
+        } 
+    </script>
+</body>
+<script type="module">
+    
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+    const ctx = canvas.getContext('webgl')
+    import {initShaders} from './helper.js'
+    initShaders(ctx,vertexShader.innerText,fragmentShader.innerText)
+    const a_Position = ctx.getAttribLocation(ctx.program, 'a_Position')
+    const a_PointSize = ctx.getAttribLocation(ctx.program, 'a_PointSize')
+    const u_FragColor = ctx.getUniformLocation(ctx.program, 'u_FragColor')
+    const a_points = [{ x: 0, y: 0, size: 10 ,color:{r:1,g:1,b:0,a:1}}];
+
+    render()
+
+    function render(){
+        ctx.clear(ctx.COLOR_BUFFER_BIT)
+
+        a_points.forEach(({x,y,size,color:{r,g,b,a}})=>{
+            ctx.vertexAttrib2f(a_Position,x,y)
+            ctx.vertexAttrib1f(a_PointSize,size)
+            // ctx.uniform4f(u_FragColor,r,g,b,a)
+            const arr = new Float32Array([r,g,b,a])
+            ctx.uniform4fv(u_FragColor,arr)
+            ctx.drawArrays(ctx.POINTS,0,1)
+        })
+    }
+    canvas.addEventListener('click',({clientX,clientY})=>{
+        const {left,top,width,height} = canvas.getBoundingClientRect()
+        const [cssX,cssY] = [clientX - left, clientY - top ]
+
+        // 解决原点位置差异
+        const [xBaseCenter,yBaseCenter] = [cssX - width / 2,cssY - height / 2 ]
+
+        // 解决y方向差异和坐标基底单位差异
+        const [x,y] = [xBaseCenter /( width / 2),-yBaseCenter/( height / 2)]
+
+        const n = Math.random()
+        a_points.push({
+             x,
+              y,
+               size:Math.random() * 50 + 10 ,
+               color:{r:n,g:0,b:n,a:1}
+            });
+        render();
+    })
+
+</script>
+</html>

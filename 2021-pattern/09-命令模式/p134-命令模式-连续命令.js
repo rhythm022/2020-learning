@@ -1,25 +1,30 @@
 const {button,ball} = require('./helper')
 
-// 宏命令 === 一组命令 === 批处理命令
-// 宏命令是命令模式和组合模式的联用
+// 宏命令 === 连续命令 === 批命令
+
 function Command(func, ...args) {
-    let start = null
+    let preconditions = null
 
     return {
         execute() {
-            start = 500
+            preconditions = 'x'
             func(...args)
         },
         undo(){
-            func(start)
+            console.log(preconditions);
+            func(preconditions)
         },
     }
 }
 
 
 
-////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////
+// 宏命令是命令模式和组合模式的联用
+// MacroCommand是组合对象，Command是叶对象，MacroCommand自己不实现，而是把请求委托给叶对象
+// 有了组合对象，调用者就不需要关心叶对象，只需要关心顶层的组合对象。
+// 另外常常，基于多态性，使得调用者可以MacroCommand和Command混用。
 const MacroCommand = function(){
     const cmds = []
 
@@ -30,7 +35,7 @@ const MacroCommand = function(){
         execute(){
             cmds.forEach(cmd=>cmd.execute())
         },
-        reverse(){
+        undo(){
             let command
             while(command = cmds.pop()){
                 command.undo()
@@ -48,15 +53,5 @@ macro.add(command1)
 macro.add(command2)
 macro.add(command3)
 
-button.addEventListner('click', () => {
-    macro.execute()
-})
-
-button.addEventListner('reverse', () => {
-    macro.reverse()
-})
-
-
-button.trigger('click')
-button.trigger('reverse')
-
+macro.execute()
+macro.undo()

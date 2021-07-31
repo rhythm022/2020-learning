@@ -9,9 +9,8 @@ function Command(func,...args){
 }
 
 
-const move = Command(ball.move)
-button.addEventListner('move', () => {
-    move()
-})
+const move = Command(ball.move,10)
 
-button.trigger('move')
+
+move()
+

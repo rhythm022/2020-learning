@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        margin: 0;
+        overflow: hidden;
+    }
+    #canvas{
+        background-color: antiquewhite;
+    }
+</style>
+<body>
+    <canvas id="canvas"></canvas>
+    <script id="vertexShader" type="x-shader/x-vertex">
+        attribute vec4 a_Position;
+        void main(){
+            gl_Position=a_Position;
+            gl_PointSize=100.0;
+        } 
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        void main(){
+            gl_FragColor=vec4(1,1,0,1);
+        } 
+    </script>
+</body>
+<script type="module">
+    
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+    const ctx = canvas.getContext('webgl')
+
+    import {initShaders} from './helper.js'
+    initShaders(ctx,vertexShader.innerText,fragmentShader.innerText)
+
+    const a_Position = ctx.getAttribLocation(ctx.program, 'a_Position')
+    // ctx.vertexAttrib3f(a_Position,1,0.5,0.0)
+    ctx.vertexAttrib2f(a_Position,1,1)
+ 
+    ctx.drawArrays(ctx.POINTS,0,1)
+
+
+</script>
+</html>

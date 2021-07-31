@@ -1,31 +1,23 @@
 const {button,ball} = require('./helper')
 
-//对于多步撤销，是startX升级为可以存储多步中间状态的stack
-function MoveCommand(ball,endX) {
-    let startX = null
+
+// 命令模式除了包装函数、参数，还可以包装前置状态。前置状态在执行前保存，在undo时使用。
+function Command(func,...args) {
+    let preconditions = null
 
     return {
         execute() {
-            startX = 0
-            ball.move(endX)
+            preconditions = 'sth'
+            func(...args)
         },
         undo(){//对于可逆操作，有撤销操作
-            ball.move(startX)
+            console.log(preconditions);
+            func(preconditions)
         },
     }
 }
 
-const command = MoveCommand(ball,1000)
+const command = Command(ball.move,1000)
 
-button.addEventListner('click', () => {
-    command.execute()
-})
-button.addEventListner('dbclick', () => {
-    command.undo()
-})
-
-
-button.trigger('click')
-button.trigger('dbclick')
-
-
+command.execute()
+command.undo()
