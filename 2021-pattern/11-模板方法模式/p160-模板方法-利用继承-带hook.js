@@ -1,5 +1,5 @@
 class DrinkBase{
-  init(){ 
+  init(){
     this.boilWater()
     this.brew()
     this.pourInCup()
@@ -23,6 +23,7 @@ class DrinkBase{
     throw '加调味'
 
   }
+  // hook和回调传参差不多
   isAddCondiments(){// hook
     return true
   }

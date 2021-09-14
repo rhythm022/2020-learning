@@ -1,27 +1,29 @@
+Function.prototype.before = function(beforeFn){
+    const srcFn = this
 
-Function.prototype.onBefore = function (before_func) {
-    const func = this
-    return function () {
-        before_func.apply(this, arguments)
+    return function(){// 返回的是装饰器
+        beforeFn.apply(this,arguments)
 
-        return func.apply(this, arguments)
+        return srcFn.apply(this,arguments)
     }
+
 }
 
-Function.prototype.onAfter = function (after_func) {
-    const func = this
-    return function () {
-        const ret = func.apply(this, arguments)
+Function.prototype.after = function(afterFn){
+    const srcFn = this
 
-        after_func.apply(this, arguments)// 无法使用前面函数的结果
+    return function(){
+        const res = srcFn.apply(this,arguments)
 
-        return ret
+        afterFn.apply(this,arguments)
 
+        return res
     }
+
 }
 
 
-const fn = () => { console.log('main') }
+const src = () => { console.log('main') }
 
 /*
 // 错误
@@ -30,9 +32,11 @@ fn.after(()=>{console.log('after')})
 fn()
 */
 
-const new_func = fn
-    .onBefore(() => { console.log('before') })
-    .onAfter(() => { console.log('after') })
+const decorator = src
+.before(() => { console.log('before2') })
+.before(() => { console.log('before1') })
+.after(() => { console.log('after1') })
+.after(() => { console.log('after2') })
 
 
-new_func()
+decorator()

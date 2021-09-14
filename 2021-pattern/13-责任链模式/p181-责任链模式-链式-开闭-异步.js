@@ -23,9 +23,9 @@ function noOrder({orderType, pay,stock},{sth}) {
   }
 }
 
-function Node(func) {// Gluing同时拥有上下两个函数
+function Wrapper(func) {// Gluing同时拥有上下两个函数
   let _next;
-  function then(next) {
+  function after(next) {
     return _next = next;
   }
 
@@ -38,18 +38,18 @@ function Node(func) {// Gluing同时拥有上下两个函数
 
 
   return {
-    then,
+    after,
     exe
   }
 }
 
 
-const node1 = Node(order500)
-const node2 = Node(order200)
-const node3 = Node(noOrder)
+const func1 = Wrapper(order500)// 为order500函数提供后继函数的可能
+const func2 = Wrapper(order200)
+const func3 = Wrapper(noOrder)
 
-// 动态配置孩子节点，达到开闭效果☆☆☆
-node1.then(node2).then(node3)
+// 动态配置后继函数，达到开闭效果
+func1.after(func2).after(func3)
 
 // 通过我的exe接口做执行☆☆☆
-node1.exe({orderType:200, pay:1000, stock:1},{sth:'sthA'})
+func1.exe({orderType:200, pay:1000, stock:1},{sth:'sthA'})
