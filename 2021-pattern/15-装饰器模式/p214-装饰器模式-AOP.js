@@ -1,4 +1,4 @@
-Function.prototype.before = function(beforeFn){// 前置装饰
+Function.prototype.before = function(beforeFn){// 传入子函数，返回父函数，父函数更大，更早被调用★★★
   const srcFn = this
 
   return function(){// 返回的是装饰器

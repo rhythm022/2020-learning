@@ -1,9 +1,9 @@
-// 源函数
+// 源行为
 let uploadFile = (id)=>{
     console.log(`开始上传文件：${id}`)
 }
 
-// 虚拟代理
+// 控制优化层
 const uploadFileProxy = function(uploadFile){
 
     const cache = []
@@ -14,7 +14,6 @@ const uploadFileProxy = function(uploadFile){
         if(timer) return
 
         timer = setTimeout(()=>{
-            clearTimeout(timer)
             timer = null
 
             cache.forEach(uploadFile)
@@ -29,3 +28,5 @@ uploadFile = uploadFileProxy(uploadFile)
 
 
 uploadFile(1)
+uploadFile(2)
+uploadFile(3)

@@ -1,15 +1,13 @@
-
-// 状态模式适用于：同一请求在不同状况下有不同行为表现。多态???
-// 不同的状态 === 不同的上下文。★★★
-// 状态模式 = 执行逻辑然后改变上下文。从一个状态可以next往多个状态上下文。
-// 比如用户“点击中”进入/next往“扫描中”，“扫描中”可以next往“上传完成”、“上传失败”、“上传中”。 “上传中”可以next往“暂停上传”、“上传完成”。“暂停上传”可以next往“上传中”
+// 状态层为父函数管理curState
+// 只要一件事有if/else就可以使用状态层。多态 === 多实例。
+// 行为按不同状态放在不同文件下。off/weak是状态，鸡鸭也是状态
 class WhenOff{
   constructor(context) {
     this.context = context
   }
   press(){//WhenOff,press...
     console.log('弱光');
-    this.context.next(this.context.whenWeak)
+    this.context.next(this.context.whenWeak)//执行逻辑然后改变curState
   }
 }
 
@@ -33,7 +31,7 @@ class WhenStrong{
   }
 }
 
-// 一般只允许父类请求子类，子类请求子类★★★
+
 class Context{
   constructor() {
     this.whenOff = this.curState = new WhenOff(this)// 允许子类请求父类（特例）
@@ -50,11 +48,12 @@ class Context{
 }
 
 const context = new Context()
-// 委托 === 让调用者在不同状况下，以为服务端是从不同类中实例化而来的
+
 context.press()
 context.press()
 context.press()
 context.press()
 
 
-// 在Java中所有When类必须继承自When抽象类，当然如果没有通用的方法值得放入抽象类，则是所有When类实现When接口
+// 在Java中所有WhenXXX类必须继承自When抽象类，如果没有通用的方法值得放入抽象类，则是所有WhenXXX类实现When接口
+// 从一个状态可以next往多个状态上下文。 比如用户“点击中”进入/next往“扫描中”，“扫描中”可以next往“上传完成”、“上传失败”、“上传中”。 “上传中”可以next往“暂停上传”、“上传完成”。“暂停上传”可以next往“上传中”

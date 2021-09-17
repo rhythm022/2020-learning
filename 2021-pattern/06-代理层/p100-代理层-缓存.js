@@ -1,6 +1,6 @@
 
 
-// 虚拟代理
+// 控制优化层
 function cache(func) {
   const ca = new Map();
 

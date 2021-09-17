@@ -1,24 +1,12 @@
-const forEach = function (obj, cb) {
-    if (Array.isArray(obj)) {
-        for (; i < length; i++) {
-            const isContinue = cb(obj[i], i)
-            if (!isContinue) break
-        }
-    } else {
-        for (i in obj) {
-            const isContinue = cb(obj[i], i)
-            if (!isContinue) break
-        }
-    }
-}
-
-
-
-forEach({1:2},console.log)
+const exp = [1,2,3]
+exp.iter = exp.forEach
+// 迭代层/内部迭代器
+// 迭代层 === exp
+exp.iter(console.log)
 
 
 ///////////////////////////////////////
-
+// 迭代层/外部迭代器
 // next,isDone,getCurrent是规范
 const Iterator = function(obj){
     let current = 0
