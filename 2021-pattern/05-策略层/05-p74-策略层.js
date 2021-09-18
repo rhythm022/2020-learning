@@ -10,7 +10,7 @@ function B(salary) {
     return salary * 2
 }
 
-// getBonusContext为父函数选择策略并执行策略
+// 策略中间层为父函数选择策略并执行策略
 function getBonus(salary,strategy) {
     const dict = {
         A,

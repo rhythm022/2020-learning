@@ -20,7 +20,7 @@ function isFieldSatisfy(func) {
 }
 
 
-// 策略层
+// 策略中间层
 class Validator {
     constructor() {
         this.validations = []

@@ -1,5 +1,5 @@
 // subscribe === listen === register === collect === inject
-// publisher === eventer
+// publisher === eventEmitter === slot
 function Slot(){
     return {
         dict:{},

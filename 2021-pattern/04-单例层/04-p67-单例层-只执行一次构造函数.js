@@ -15,8 +15,8 @@ const Person = single(class Person {
     getName() {
         console.log(this.name)
     }
-
 })
+
 const jw = new Person('jw')
 const jw2 = new Person('jw')
 
@@ -31,7 +31,7 @@ console.log(jw === jw2,jw2.name)
 
 
 
-
+// 单例中间层限制只生产一个实例
 function once(func){
   let instance
 

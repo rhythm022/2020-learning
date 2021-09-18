@@ -1,6 +1,6 @@
 
 
-// 控制优化层
+// 代理中间层
 function cache(func) {
   const ca = new Map();
 

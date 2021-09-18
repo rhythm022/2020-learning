@@ -1,12 +1,11 @@
 const exp = [1,2,3]
 exp.iter = exp.forEach
-// 迭代层/内部迭代器
-// 迭代层 === exp
+// 迭代中间层/内部迭代器 === exp
 exp.iter(console.log)
 
 
 ///////////////////////////////////////
-// 迭代层/外部迭代器
+// 迭代中间层/外部迭代器
 // next,isDone,getCurrent是规范
 const Iterator = function(obj){
     let current = 0

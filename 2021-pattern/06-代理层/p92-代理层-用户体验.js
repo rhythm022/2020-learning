@@ -9,7 +9,7 @@ let loadImg = function (src) {
 
 // 代理为本体提供代理服务。代理拒绝或延后对本体的访问。或者在访问本体前做一些额外逻辑，不同于装饰器/AOP这些额外逻辑围绕于本体。
 
-// 控制优化层
+// 代理中间层
 const loadSrcProxy = function (loadImg) {
     return function(src){
         const img = loadImg(

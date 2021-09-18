@@ -3,7 +3,7 @@ let uploadFile = (id)=>{
     console.log(`开始上传文件：${id}`)
 }
 
-// 控制优化层
+// 代理中间层
 const uploadFileProxy = function(uploadFile){
 
     const cache = []
