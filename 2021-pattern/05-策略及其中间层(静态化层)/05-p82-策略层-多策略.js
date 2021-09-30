@@ -21,6 +21,7 @@ function isFieldSatisfy(func) {
 
 
 // 策略中间层
+// 迭代函数的静态化层
 class Validator {
     constructor() {
         this.validations = []

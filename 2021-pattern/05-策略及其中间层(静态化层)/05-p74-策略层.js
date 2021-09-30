@@ -11,6 +11,7 @@ function B(salary) {
 }
 
 // 策略中间层为父函数选择策略并执行策略
+// 选择(if-else)的静态化层
 function getBonus(salary,strategy) {
     const dict = {
         A,

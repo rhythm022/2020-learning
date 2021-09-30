@@ -7,6 +7,7 @@ exp.iter(console.log)
 ///////////////////////////////////////
 // 迭代中间层/外部迭代器
 // next,isDone,getCurrent是规范
+// 迭代数组的静态化层
 const Iterator = function(obj){
     let current = 0
 

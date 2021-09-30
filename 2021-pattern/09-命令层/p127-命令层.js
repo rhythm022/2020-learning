@@ -13,8 +13,8 @@ const Command = function (fn,that,...args) {
     }
 }
 
-const move = Command(ball.move,ball,10)
-move.execute()
+const move10 = Command(ball.move,ball,10)
+move10.execute()
 
 // 最简命令层
 function Command2(fn,that,...args){
@@ -24,8 +24,8 @@ function Command2(fn,that,...args){
 }
 
 
-const move2 = Command2(ball.move,ball,20)
+const move20 = Command2(ball.move,ball,20)
 
 
-move2()
+move20()
 

@@ -33,7 +33,7 @@ function Link(func) {
 
   return {
     add(c) {
-      return child = c;
+      return child = Link(c);
     },
     execute(arg) {
       func.call(null,{...arg,next:()=>child.execute(arg)} )// 递归配链表
@@ -42,14 +42,14 @@ function Link(func) {
   }
 }
 
-
+// 可以说，Link是静态对象，order500是动态对象
+// 可以说，Link是父对象，order500是子对象
 const root1 = Link(order500)
-const root2 = Link(order200)
-const root3 = Link(noOrder)
 
-// 填充接口，完成开闭
+
+
 root1
-.add(root2)
-.add(root3)
+.add(order200)// 让order500指向order200
+.add(noOrder)// 让order200指向noOrder
 
 root1.execute({orderType:2000, pay:1000, stock:1})

@@ -1,9 +1,8 @@
 // 函数责任链调用 === 单一职责 + 链表式调用
-// 解决单体函数体积过大问题
+// 解决单体函数体积过大问题，拆分为力度更细的函数
 
 
-
-// 不要写成if else if的多链表结构
+// 不要写成if else if的多叉结构
 // 要使用if else的单链表结构
 function order500(orderType,pay,stock){// 父函数
   if(orderType === 500 && pay){
